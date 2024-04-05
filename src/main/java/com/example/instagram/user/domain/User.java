@@ -16,7 +16,7 @@ public class User {
     private Long id;
 
     @CreatedDate
-    @Column(name = "createDate", updatable = false)
+    @Column(name = "createDate", updatable = false) //createDate로 설정 했는데 컬럼명이 create_date로 생김
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createDate;
 
