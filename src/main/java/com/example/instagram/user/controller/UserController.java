@@ -31,6 +31,16 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout") //로그아웃
+    public ResponseEntity<String> logout(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate(); // 세션 무효화
+            return ResponseEntity.ok("Logout successful");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
+        }
+    }
     @GetMapping("/userinfo") // test 용 : 로그인했을때 세션으로 자신의 정보를 조회하는 컨트롤러
     public ResponseEntity<User> getUserInfo(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -59,7 +69,7 @@ public class UserController {
         }
     }
 
-    @GetMapping("/findAll")
+    @GetMapping("/findAll") //전체 회원 조회
     public ResponseEntity<List<UserResponse>> findAllMembers() {
         List<UserResponse> allUsers = userService.findAllUsers();
         if (!allUsers.isEmpty()) {
