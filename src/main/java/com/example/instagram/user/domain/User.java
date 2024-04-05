@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder // 빌더 패턴 적용
+@NoArgsConstructor // 기본 생성자 생성
+@AllArgsConstructor // 모든 필드를 가진 생성자 생성
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment (기본키)

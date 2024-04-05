@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -18,6 +19,8 @@ public class UserController {
 
     @PostMapping("/join") //회원가입
     public ResponseEntity<User> createUser(@RequestBody User user) {
+        user.setCreateDate(LocalDateTime.now()); // createDate 현재 시간으로 설정
+
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
