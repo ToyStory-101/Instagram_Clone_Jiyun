@@ -1,7 +1,11 @@
 package com.example.instagram.user.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -11,8 +15,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment (기본키)
     private Long id;
 
-    @Column
-    private String createDate; //자료형 확인
+    @CreatedDate
+    @Column(name = "createDate", updatable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    private LocalDateTime createDate;
 
     @Column
     private String email;
@@ -21,7 +27,7 @@ public class User {
     private String gender;
 
     @Column
-    private String name; //자료형 확인
+    private String name;
 
     @Column
     private String password;
@@ -30,7 +36,7 @@ public class User {
     private String phone;
 
     @Column
-    private String profileImage; //자료형 확인
+    private String profileImage;
 
     @Column
     private String username;
