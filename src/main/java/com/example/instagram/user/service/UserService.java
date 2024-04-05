@@ -18,6 +18,17 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    //로그인
+    public User loginUser(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user != null && user.getPassword().equals(password)) {
+            return user;
+        } else {
+            return null;
+        }
+    }
+
+    //회원가입
     public UserResponse createUser(UserRequest userRequest) {
         User newUser = new User();
         newUser.setPassword(userRequest.getPassword());
@@ -33,6 +44,7 @@ public class UserService {
         return new UserResponse(savedUser);
     }
 
+    //특정 회원 조회
     public UserResponse findUserById(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user != null) {
@@ -42,6 +54,7 @@ public class UserService {
         }
     }
 
+    //전체 회원 조회
     public List<UserResponse> findAllUsers() {
         List<User> allUsers = userRepository.findAll();
         return allUsers.stream()
