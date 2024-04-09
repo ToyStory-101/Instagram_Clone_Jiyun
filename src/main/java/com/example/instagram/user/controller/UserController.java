@@ -3,6 +3,7 @@ package com.example.instagram.user.controller;
 import com.example.instagram.user.domain.User;
 import com.example.instagram.user.domain.dto.UserRequest;
 import com.example.instagram.user.domain.dto.UserResponse;
+import com.example.instagram.user.domain.dto.UserUpdateRequest;
 import com.example.instagram.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -88,6 +89,32 @@ public class UserController {
                 userService.deleteUser(user.getId());
                 session.removeAttribute("user");
                 return ResponseEntity.ok("사용자가 성공적으로 삭제되었습니다.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션에 사용자 정보가 없거나 권한이 없습니다.");
+    }
+
+    @PatchMapping("/update")
+    public ResponseEntity<String> updateUser(@RequestBody UserUpdateRequest userUpdateRequest, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            User user = (User) session.getAttribute("user");
+            if (user != null) {
+                userService.updateUser(user.getId(), userUpdateRequest);
+
+                // 세션의 사용자 정보 업데이트
+                user.setName(userUpdateRequest.getName());
+                user.setEmail(userUpdateRequest.getEmail());
+                user.setGender(userUpdateRequest.getGender());
+                user.setPassword(userUpdateRequest.getPassword());
+                user.setPhone(userUpdateRequest.getPhone());
+                user.setProfileImage(userUpdateRequest.getProfileImage());
+                user.setUsername(userUpdateRequest.getUsername());
+
+
+                session.setAttribute("user", user);
+
+                return ResponseEntity.ok("사용자 정보가 성공적으로 업데이트되었습니다.");
             }
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("세션에 사용자 정보가 없거나 권한이 없습니다.");
