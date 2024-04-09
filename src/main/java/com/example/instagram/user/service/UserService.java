@@ -61,4 +61,9 @@ public class UserService {
                 .map(UserResponse::new)
                 .collect(Collectors.toList());
     }
+
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
 }
