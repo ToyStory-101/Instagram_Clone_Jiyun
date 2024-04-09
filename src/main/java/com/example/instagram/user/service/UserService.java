@@ -3,6 +3,7 @@ package com.example.instagram.user.service;
 import com.example.instagram.user.domain.User;
 import com.example.instagram.user.domain.dto.UserRequest;
 import com.example.instagram.user.domain.dto.UserResponse;
+import com.example.instagram.user.domain.dto.UserUpdateRequest;
 import com.example.instagram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +67,32 @@ public class UserService {
         userRepository.deleteById(userId);
     }
 
+    public void updateUser(Long id, UserUpdateRequest userUpdateRequest) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            if (userUpdateRequest.getName() != null) {
+                user.setName(userUpdateRequest.getName());
+            }
+            if (userUpdateRequest.getEmail() != null) {
+                user.setEmail(userUpdateRequest.getEmail());
+            }
+            if (userUpdateRequest.getGender() != null) {
+                user.setGender(userUpdateRequest.getGender());
+            }
+            if (userUpdateRequest.getPassword() != null) {
+                user.setPassword(userUpdateRequest.getPassword());
+            }
+            if (userUpdateRequest.getPhone() != null) {
+                user.setPhone(userUpdateRequest.getPhone());
+            }
+            if (userUpdateRequest.getProfileImage() != null) {
+                user.setProfileImage(userUpdateRequest.getProfileImage());
+            }
+            if (userUpdateRequest.getUsername() != null) {
+                user.setUsername(userUpdateRequest.getUsername());
+            }
+            userRepository.save(user);
+        }
+    }
 }
+
