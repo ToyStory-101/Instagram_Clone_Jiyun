@@ -5,10 +5,13 @@ import com.example.instagram.image.domain.dto.ImageDTO;
 import com.example.instagram.image.repository.ImageRepository;
 import com.example.instagram.user.domain.User;
 import com.example.instagram.user.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -17,7 +20,8 @@ public class ImageService {
 
     private final ImageRepository imageRepository;
     private final UserService userService;
-    // 이미지 저장
+
+    //게시물 등록
     public ImageDTO saveImage(ImageDTO imageDTO, Long userId) {
         User user = userService.getUserById(userId);
         if (user == null) {
@@ -29,7 +33,7 @@ public class ImageService {
         return convertToDTO(savedImage);
     }
 
-
+    //게시물 조회
     public List<ImageDTO> getImagesByUserId(Long userId) {
         List<Image> images = imageRepository.findAllByUserId(userId);
         return images.stream()
@@ -46,7 +50,6 @@ public class ImageService {
         return image;
     }
 
-
     private ImageDTO convertToDTO(Image image) {
         ImageDTO imageDTO = new ImageDTO();
         imageDTO.setId(image.getId());
@@ -56,4 +59,25 @@ public class ImageService {
         imageDTO.setUsername(image.getUser().getUsername());
         return imageDTO;
     }
+
+    public Long getUserIdFromSession(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        return user != null ? user.getId() : null;
+    }
+
+
+    //게시물 삭제
+    public boolean deleteImage(Long id, Long userId){
+        Optional<Image> optionalImage = imageRepository.findByIdAndUserId(id, userId);
+
+        if (optionalImage.isPresent()) {
+            Image image = optionalImage.get();
+            imageRepository.delete(image);
+            return true; // 삭제 성공
+        } else {
+            return false; // 삭제 실패 (게시물이 없거나 해당 사용자가 작성자가 아님)
+        }
+    }
+
 }
