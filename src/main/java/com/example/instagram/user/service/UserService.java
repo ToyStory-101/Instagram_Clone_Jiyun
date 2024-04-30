@@ -6,7 +6,6 @@ import com.example.instagram.user.domain.dto.UserResponse;
 import com.example.instagram.user.domain.dto.UserUpdateRequest;
 import com.example.instagram.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
