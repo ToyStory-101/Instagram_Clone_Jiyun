@@ -17,6 +17,17 @@ public class ImageDTO {
     private String imageUrl;
     private String username; // 사용자 이름
 
-    // 생성자, getter 및 setter
+    public ImageDTO() {
+    }
+
+    public ImageDTO(Long id, String caption, LocalDateTime createDate, String location, String imageUrl, String username) {
+        this.id = id;
+        this.caption = caption;
+        this.createDate = createDate;
+        this.location = location;
+        this.imageUrl = imageUrl;
+        this.username = username;
+    }
 }
+
 
