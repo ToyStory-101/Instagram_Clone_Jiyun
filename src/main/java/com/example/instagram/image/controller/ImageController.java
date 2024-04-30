@@ -2,7 +2,6 @@ package com.example.instagram.image.controller;
 
 import com.example.instagram.image.domain.dto.ImageDTO;
 import com.example.instagram.image.service.ImageService;
-import com.example.instagram.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +41,16 @@ public class ImageController {
         }
     }
 
-
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateImage(@PathVariable("id") Long id, @RequestBody ImageDTO updatedImageDTO, HttpServletRequest request) {
+        Long userId = imageService.getUserIdFromSession(request);
+        // 이미지 ID를 사용하여 이미지를 업데이트하고, 사용자 ID로 인증합니다.
+        boolean updated = imageService.updateImage(id, updatedImageDTO, userId);
+        if (updated) {
+            return ResponseEntity.ok("게시물이 성공적으로 수정되었습니다.");
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("해당 게시물을 수정할 수 있는 권한이 없습니다.");
+        }
+    }
 
 }

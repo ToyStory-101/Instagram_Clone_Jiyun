@@ -80,4 +80,20 @@ public class ImageService {
         }
     }
 
+    public boolean updateImage(Long id, ImageDTO updatedImageDTO, Long userId) {
+        Optional<Image> optionalImage = imageRepository.findByIdAndUserId(id, userId);
+        if (optionalImage.isPresent()) {
+            Image image = optionalImage.get();
+            // 게시물 수정
+            image.setCaption(updatedImageDTO.getCaption());
+            image.setLocation(updatedImageDTO.getLocation());
+            image.setImageUrl(updatedImageDTO.getImageUrl());
+
+            imageRepository.save(image);
+            return true;
+        }
+        return false;
+    }
+
+
 }
