@@ -30,8 +30,8 @@ public class Image {
     @Column
     private String location;
 
-    // User 엔티티와의 관계를 설정
-    @ManyToOne(fetch = FetchType.LAZY)
+    // 지연로딩 할때 게시물 조회가 제대로 되지 않아 즉시 로딩으로 변경
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
 
