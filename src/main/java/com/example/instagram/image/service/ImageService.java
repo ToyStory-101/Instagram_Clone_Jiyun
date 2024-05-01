@@ -44,8 +44,9 @@ public class ImageService {
     private Image convertToEntity(ImageDTO imageDTO, User user) {
         Image image = new Image();
         image.setCaption(imageDTO.getCaption());
-        image.setLocation(imageDTO.getLocation()); // location 설정
-        image.setImageUrl(imageDTO.getImageUrl()); // imageUrl 설정
+        image.setCreateDate(imageDTO.getCreateDate());
+        image.setLocation(imageDTO.getLocation());
+        image.setImageUrl(imageDTO.getImageUrl());
         image.setUser(user);
         return image;
     }
@@ -54,8 +55,9 @@ public class ImageService {
         ImageDTO imageDTO = new ImageDTO();
         imageDTO.setId(image.getId());
         imageDTO.setCaption(image.getCaption());
-        imageDTO.setLocation(image.getLocation()); // location 설정
-        imageDTO.setImageUrl(image.getImageUrl()); // imageUrl 설정
+        imageDTO.setCreateDate(image.getCreateDate());
+        imageDTO.setLocation(image.getLocation());
+        imageDTO.setImageUrl(image.getImageUrl());
         imageDTO.setUsername(image.getUser().getUsername());
         return imageDTO;
     }

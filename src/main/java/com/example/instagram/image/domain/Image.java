@@ -27,6 +27,12 @@ public class Image {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime createDate;
 
+    //게시물 등록할때 시간 설정
+    @PrePersist
+    protected void onCreate() {
+        createDate = LocalDateTime.now();
+    }
+
     @Column
     private String location;
 
